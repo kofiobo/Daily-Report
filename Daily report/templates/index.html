@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRTG Report</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>DAILY REPORT AUTOMATION</h1>
+    <button id="generateReportBtn">Generate Report</button>
+    <div id="reportOutput"></div>
+
+    <h2>Search for a Device</h2>
+    <input type="text" id="searchTerm" placeholder="Enter device name">
+    <button id="searchBtn">Search</button>
+    <div id="searchResults"></div>
+
+    <script>
+        document.getElementById('generateReportBtn').addEventListener('click', function() {
+            fetch('/generate_reports', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('reportOutput').innerText = data.report;
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        document.getElementById('searchBtn').addEventListener('click', function() {
+            const searchTerm = document.getElementById('searchTerm').value;
+            fetch('/search', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ search_term: searchTerm })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const searchResultsDiv = document.getElementById('searchResults');
+                searchResultsDiv.innerHTML = '';
+                if (data.length > 0) {
+                    data.forEach(result => {
+                        const resultDiv = document.createElement('div');
+                        resultDiv.innerHTML = `
+                            <p>Group: ${result.group}</p>
+                            <p>PRTG IP: ${result.prtg_ip}</p>
+                            <p>Device Name: ${result.device_name}</p>
+                            <hr>
+                        `;
+                        searchResultsDiv.appendChild(resultDiv);
+                    });
+                } else {
+                    searchResultsDiv.innerText = 'No devices found.';
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
