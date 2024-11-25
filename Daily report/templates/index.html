@@ -6,6 +6,66 @@
     <title>PRTG Report</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
+<style>
+    body {
+        font-family: 'Courier New', Courier, monospace;
+        margin: auto;
+        max-width: 800px;
+        padding: 20px;
+        background-color: #f2f2f2;
+        border-radius: 10px;
+        box-shadow: 0 0 5px #ccc;
+    }
+    h1 {
+    background-color: #0288d1;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 5px;
+}
+button {
+    background-color: #0288d1;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px 0;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+button:hover {
+    background-color: #0277bd;
+    transform: scale(1.05);
+}
+
+#reportOutput, #searchResults {
+    margin: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 600px;
+}
+
+input[type="text"] {
+    padding: 10px;
+    width: calc(100% - 22px);
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: #ccc;
+    margin: 20px 0;
+}
+</style>
 <body>
     <h1>DAILY REPORT AUTOMATION</h1>
     <button id="generateReportBtn">Generate Report</button>
